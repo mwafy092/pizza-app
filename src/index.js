@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 const pizzaData = [
@@ -47,15 +47,48 @@ const pizzaData = [
 ];
 
 const Header = () => {
-    return <h1>Fast React Pizza</h1>;
+    return (
+        <header className='header'>
+            <h1> Fast React Pizza</h1>
+        </header>
+    );
 };
 const Menu = () => {
+    const [data, setData] = useState([]);
+    const getPizzaData = () => {
+        setData(pizzaData);
+    };
+    useEffect(() => {
+        getPizzaData();
+    }, []);
     return (
-        <>
+        <section className='menu'>
             <h2>Our Menu</h2>
-            <Pizza />
-            <Pizza />
-        </>
+            <div className='pizzas'>
+                {data.map((pizza) => (
+                    <Pizza
+                        key={pizza.name}
+                        pizzaData={pizza}
+                    />
+                ))}
+            </div>
+        </section>
+    );
+};
+
+const Pizza = ({ pizzaData }) => {
+    return (
+        <section className='pizza'>
+            <img
+                src={pizzaData?.photoName}
+                alt={pizzaData?.name}
+            />
+            <div>
+                <h3>{pizzaData?.name}</h3>
+                <p>{pizzaData?.ingredients}</p>
+                <span>{pizzaData?.price}</span>
+            </div>
+        </section>
     );
 };
 const Footer = () => {
@@ -65,30 +98,19 @@ const Footer = () => {
     const isOpen = hour >= openHour && hour <= closeHour;
     console.log(isOpen);
     return (
-        <footer>{new Date().toLocaleTimeString()}, We're currently open</footer>
+        <footer className='footer'>
+            {new Date().toLocaleTimeString()}, We're currently open
+        </footer>
     );
 };
 
-const Pizza = () => {
-    return (
-        <div>
-            <img
-                src='pizzas/prosciutto.jpg'
-                alt='Pizza Prosciutto'
-            />
-            <h2>Pizza Prosciutto</h2>
-            <p>Tomato, mozarella, ham, aragula, and burrata cheese</p>
-        </div>
-    );
-};
 const App = () => {
-    const appName = 'Pizza App';
     return (
-        <>
+        <main className='container'>
             <Header />
             <Menu />
             <Footer />
-        </>
+        </main>
     );
 };
 
