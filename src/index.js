@@ -45,6 +45,10 @@ const pizzaData = [
     },
 ];
 
+const Header = () => {};
+const Menu = () => {};
+const Footer = () => {};
+
 const Pizza = () => {
     return (
         <div>
